@@ -22,7 +22,7 @@ export default function () {
         MessageBody: "Information about current NY Times fiction bestseller for week of 12/11/2016.",
         // MessageDeduplicationId: "TheWhistler",  // Required for FIFO queues
         // MessageGroupId: "Group1",  // Required for FIFO queues
-        QueueUrl: "http://localhost:4566/000000000000/dummy-k6-queue"
+        QueueUrl: "http://localhost:4567/000000000000/dummy-k6-queue"
     };
 
     sqs.send(client, params)

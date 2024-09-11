@@ -8,17 +8,18 @@ fi
 export AWS_ACCESS_KEY_ID=foo
 export AWS_SECRET_ACCESS_KEY=bar
 export AWS_REGION=eu-west-1
-export AWS_ENDPOINT=http://localhost:4566
+export AWS_ENDPOINT=http://localhost:4567
 
-go install github.com/k6io/xk6/cmd/xk6@latest
+go install go.k6.io/xk6/cmd/xk6@latest
+asdf reshim golang
 xk6 build \
-    --with github.com/mridehalgh/xk6-sqs@latest=.
+    --with github.com/thake/xk6-sqs@latest=.
 
 QUEUE_NAME=dummy-k6-queue
 
-timeout 22 sh -c 'until aws --endpoint-url=http://localhost:4566 sqs list-queues; do sleep 0.1 && echo "Sleeping"; done'
-QUEUE_URL=$(aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name $QUEUE_NAME | jq -r '.QueueUrl')
-aws --endpoint-url=http://localhost:4566 sqs purge-queue --queue-url $QUEUE_URL
+timeout 22 sh -c 'until aws --endpoint-url=http://localhost:4567 sqs list-queues; do sleep 0.1 && echo "Sleeping"; done'
+QUEUE_URL=$(aws --endpoint-url=http://localhost:4567 sqs create-queue --queue-name $QUEUE_NAME | jq -r '.QueueUrl')
+aws --endpoint-url=http://localhost:4567 sqs purge-queue --queue-url $QUEUE_URL
 
 ./k6 run example/localstack.js
 
